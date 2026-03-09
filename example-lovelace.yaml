@@ -1,0 +1,40 @@
+# Wallbox Energy Flow Dashboard – Lovelace Beispiel-Konfiguration
+# 
+# 1. Ressource hinzufügen unter: Einstellungen → Dashboards → Ressourcen
+#    URL: /local/wallbox-dashboard-card.js
+#    Typ: JavaScript-Modul
+#
+# 2. Diese Karte in dein Dashboard einfügen (Manuell-Modus)
+
+type: custom:wallbox-dashboard-card
+entities:
+  # Energie-Sensoren (Pflicht)
+  solar: sensor.pv_gesamtleistung_kw_rounded        # Einheit: kW
+  house: sensor.stromverbrauch                       # Einheit: W
+  batt: sensor.state_of_charge_fronius_storage_0_192_168_1_194  # Einheit: %
+  car: sensor.keba_p30_charging_power_2              # Einheit: kW
+  grid: sensor.power_grid_fronius_power_flow_0_192_168_1_194    # Einheit: W (+ = Bezug, - = Einspeisung)
+
+  # Batterie Detail-Sensoren
+  battChargeSensor: sensor.solarnet_ladeleistung     # Einheit: W
+  battDischargeSensor: sensor.solarnet_entladeleistung  # Einheit: W
+
+  # Tageswerte
+  pvDaily: sensor.pv_energie_tag                     # Einheit: kWh
+  houseDaily: sensor.solar_hausverbrauch_daily        # Einheit: kWh
+  importDaily: sensor.solar_import_power_daily        # Einheit: kWh
+  carSession: sensor.keba_p30_session_energy_2        # Einheit: kWh
+
+  # Wallbox Steuerung (input_boolean)
+  wallboxEmergency: input_boolean.wallbox_notaus
+  wallboxEco: input_boolean.pv_uberschussladen_e_auto
+  wallboxBoost: input_boolean.notfall_wallbox_laden
+
+  # Wallbox Status
+  carPlugged: binary_sensor.keba_p30_plugged_on_ev
+
+  # Sonstiges
+  door: lock.lock_ultra_48_cloud
+  temp: sensor.gw1100a_outdoor_temperature
+  hum: sensor.gw1100a_humidity
+  uv: sensor.gw1100a_uv_index
